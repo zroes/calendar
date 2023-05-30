@@ -1,44 +1,37 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
-    </div>
+  <div v-if="view == 'year'">
+    <YearView />
+  </div>
+  <div v-else-if="view == 'month'">
+    <MonthView />
   </div>
 </template>
 
 <script>
+import { computed } from "vue"
+import { AppState } from "../AppState.js"
+import { logger } from "../utils/Logger.js"
+import { yearsService } from "../services/YearsService.js"
+import YearView from "../components/YearView.vue"
+import MonthView from "../components/MonthView.vue"
+
 export default {
   setup() {
-    return {}
-  }
+    return {
+      view: computed(() => AppState.view),
+    }
+  },
+  components: { YearView, MonthView }
 }
 </script>
 
-<style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+<style>
+.col-week {
+  flex: 0 0 auto;
+  width: 14.28571429%;
+}
 
-  .home-card {
-    width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+p {
+  font-size: smaller;
 }
 </style>
