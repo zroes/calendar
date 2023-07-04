@@ -32,9 +32,11 @@
           <div v-for="day in year.months[months[monthIndex]]" class="col-week border border-grey selectable">
             <div class="p-2 pb-4 mb-5">
               <!-- Displays the days from this month -->
-              <p class="m-0" :class="today == `${year.year}-0${monthIndex + 1}-${day}` ||
-                today == `${year.year}-${monthIndex + 1}-${day}` ? 'text-danger' : ''">
+              <p class="m-0" :class="today == `${monthIndex + 1}/${day}/${year.year}`
+                ? 'text-danger fw-bold'
+                : ''">
                 {{ day }}
+                <!-- {{ `${day}/${monthIndex + 1}/${year.year}` }} -->
               </p>
             </div>
           </div>
@@ -80,7 +82,7 @@ export default {
       year: computed(() => AppState.currentYear),
       months,
       monthIndex,
-      today: new Date('November 19, 2023 23:15:30').toISOString().slice(0, 10),
+      today: new Date().toLocaleDateString().slice(0, 10),
       // month: months[monthIndex],
       weekdays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       setView() {

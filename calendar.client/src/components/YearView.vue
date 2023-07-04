@@ -48,6 +48,9 @@
   </div>
   <button data-bs-target="#event-form" data-bs-toggle="modal">hi</button>
   <MyModal id="event-form" size="modal-lg">
+    <template #head>
+      <h1>New Event</h1>
+    </template>
     <template #body>
       <EventForm />
     </template>
