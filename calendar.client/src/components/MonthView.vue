@@ -29,14 +29,14 @@
               </p>
             </div>
           </div>
-          <div v-for="day in year.months[months[monthIndex]]" class="col-week border border-grey selectable">
+          <div v-for="day in year.months[months[monthIndex]]" class="col-week border border-grey selectable"
+            data-bs-target="#event-form" data-bs-toggle="modal">
             <div class="p-2 pb-4 mb-5">
               <!-- Displays the days from this month -->
               <p class="m-0" :class="today == `${monthIndex + 1}/${day}/${year.year}`
                 ? 'text-danger fw-bold'
                 : ''">
                 {{ day }}
-                <!-- {{ `${day}/${monthIndex + 1}/${year.year}` }} -->
               </p>
             </div>
           </div>
@@ -52,23 +52,53 @@
     </div>
   </div>
   <!-- </div> -->
-  {{ today }}
+  <MyModal id="event-form" size="modal-lg">
+    <template #head>
+      <h1>New Event</h1>
+    </template>
+    <template #body>
+      <EventForm />
+    </template>
+  </MyModal>
 </template>
 
 <script>
-import { computed } from "vue"
+import { computed, onMounted } from "vue"
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { viewService } from "../services/ViewService.js"
 import { monthsService } from "../services/MonthsService.js"
-
+import EventForm from "./EventForm.vue"
+import MyModal from "./MyModal.vue"
+import { eventsService } from "../services/EventsService.js"
 
 export default {
   setup() {
     // private variables and methods here
+    async function getEvents() {
+      try {
+        await eventsService.getEvents(monthIndex.value + 1, AppState.currentYear.year)
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+    onMounted(() => {
+      getEvents()
+    })
     let months = [
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
     ]
     let monthIndex = computed(() => AppState.currentMonth)
     console.log(AppState.currentMonth)
@@ -86,7 +116,7 @@ export default {
       // month: months[monthIndex],
       weekdays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       setView() {
-        viewService.changeView('year')
+        viewService.changeView("year")
       },
       GetDay(month, day, year) {
         console.log(month, day, year)
@@ -116,6 +146,7 @@ export default {
       // public variables and methods here
     }
   },
+  components: { EventForm, MyModal }
 }
 </script>
 

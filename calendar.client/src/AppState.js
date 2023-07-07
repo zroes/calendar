@@ -10,5 +10,5 @@ export const AppState = reactive({
   currentYear: new Year(new Date().getFullYear()),
   currentMonth: parseInt(new Date().getMonth()),
 
-  view: "year"
+  view: "month"
 })

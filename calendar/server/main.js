@@ -8,10 +8,13 @@ import { logger } from './utils/Logger'
 // create server & socketServer
 const app = express()
 const port = process.env.PORT || 3000
+var cors = require('cors')
+
+app.use(cors())
 
 if (process.env.NODE_ENV == 'dev') {
   // @ts-ignore
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1;
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1
 }
 
 const httpServer = createServer(app)
